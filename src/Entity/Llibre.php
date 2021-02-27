@@ -36,7 +36,7 @@ class Llibre
     /**
      * @ORM\ManyToOne(targetEntity=Editorial::class, inversedBy="llibres")
      */
-    private $editorial;
+    private $editorial_id;
 
      /**
      * @ORM\Column(type="string")

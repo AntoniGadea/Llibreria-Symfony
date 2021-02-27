@@ -4,6 +4,11 @@ namespace App\Controller;
 use App\Entity\Editorial;
 use App\Entity\Llibre;
 use App\Repository\LlibreRepository;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +22,22 @@ class LlibreController extends AbstractController{
         $this->llibres = $BDProva->get();
     }
     
+    /**
+     *  @Route("/llibre/nou", name="llibre_nou")
+     */
 
+    public function llibre_nou(){
+        $llibre = new Llibre();
+        $formulari = $this->createFormBuilder($llibre)
+            ->add('isbn', TextType::class)
+            ->add('titol', TextType::class)
+            ->add('autor', TextType::class)
+            ->add('pagines', IntegerType::class)
+            ->add('editorial_id', EntityType::class, array('class' => Editorial::class,'choice_label' => 'nom'))
+            ->add('save', SubmitType::class, array('label' => 'Enviar'))
+            ->getForm();
+            return $this->render('nou.html.twig',array('formulari' => $formulari->createView()));
+     }
 
     /**
      *  @Route("/llibre/inserir", name="inserir_llibre")
@@ -148,6 +168,8 @@ class LlibreController extends AbstractController{
             return $this->render('inici.html.twig', array('llibres' => NULL));
         }
      }
+
+     
 
 
 }
