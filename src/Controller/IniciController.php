@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\BDProvaLlibres;
+use App\Entity\Llibre;
 
 
 class IniciController extends AbstractController{
@@ -19,7 +20,10 @@ class IniciController extends AbstractController{
      */
 
     public function inici(){
-        return $this->render('inici.html.twig', array('llibres'=> $this->llibres));
+        $repositori = $this->getDoctrine()->getRepository(Llibre::class);
+        $llibres = $repositori->findAll();
+
+        return $this->render('inici.html.twig', array( 'llibres' => $llibres));
     }
 }
 ?>
