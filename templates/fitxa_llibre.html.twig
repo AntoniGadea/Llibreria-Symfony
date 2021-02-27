@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}Llibres{% endblock %}
+{% block body %}
+<h1>Fitxa del llibre</h1>
+    {% if llibre %}
+        {{ include ('dades_llibre.html.twig', { 'llibre': llibre }) }}
+    {% else %}
+        <p>Llibre no trobat</p>
+        <img src="{{ absolute_url(asset('img/lupa.png')) }}" />
+    {% endif %}
+    <br>
+    <br>
+    <br>
+    <a href ="{{ path('inici')}}">Tornar a l'inici <img class="btn" src="{{ absolute_url(asset('img/back.png')) }}" /></a>
+    
+{% endblock %}

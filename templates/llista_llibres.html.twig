@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}Llibres{% endblock %}
+{% block body %}
+{% if llibres %}
+    {% for llibre in llibres %}
+        <h1>Llista de llibres</h1>
+        {{ include ('dades_llibre.html.twig', { 'llibre': llibre }) }}
+         <a href ="{{ path('inici',  {'text': {{llibre.isbn}}})}}">Tornar a l'inici <img class="image" src="{{ absolute_url(asset('img/llibre.png')) }}" /></a>
+    {% endfor %}
+    {% else %}
+        <p>Llibres no trobats</p>
+    {% endif %}
+{% endblock %}
