@@ -3,10 +3,13 @@ namespace App\Controller;
 
 use App\Entity\Editorial;
 use App\Entity\Llibre;
+use App\Form\LlibreType;
 use App\Repository\LlibreRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -26,8 +29,28 @@ class LlibreController extends AbstractController{
      *  @Route("/llibre/nou", name="llibre_nou")
      */
 
-    public function llibre_nou(){
+    public function llibre_nou(Request $request){
         $llibre = new Llibre();
+        $formulari = $this->createForm(LlibreType::class, $llibre);
+            $formulari->handleRequest($request);
+            if($formulari->isSubmitted() && $formulari->isValid()){
+                $llibre = $formulari->getData();
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($llibre);
+                $entityManager->flush();
+                return $this->redirectToRoute('inici');
+            }
+            return $this->render('nou.html.twig',array('formulari' => $formulari->createView()));
+     }
+
+     /**
+     *  @Route("/llibre/editar/{isbn}", name="editar_llibre")
+     */
+     
+    public function editar_llibre(Request $request, $isbn){
+        $repositori = $this->getDoctrine()->getRepository(Llibre::class);
+        $llibre = $repositori->find($isbn);
+        
         $formulari = $this->createFormBuilder($llibre)
             ->add('isbn', TextType::class)
             ->add('titol', TextType::class)
@@ -36,6 +59,14 @@ class LlibreController extends AbstractController{
             ->add('editorial_id', EntityType::class, array('class' => Editorial::class,'choice_label' => 'nom'))
             ->add('save', SubmitType::class, array('label' => 'Enviar'))
             ->getForm();
+            $formulari->handleRequest($request);
+            if($formulari->isSubmitted() && $formulari->isValid()){
+                $llibre = $formulari->getData();
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($llibre);
+                $entityManager->flush();
+                return $this->redirectToRoute('inici');
+            }
             return $this->render('nou.html.twig',array('formulari' => $formulari->createView()));
      }
 
