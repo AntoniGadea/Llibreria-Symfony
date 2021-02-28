@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block title %}Usuaris{% endblock %}
+{% block body %}
+<h1>Usuaris Biblioteca Personal Toni</h1>
+  <table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Login</th>
+            <th>Passwrod</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for usuari in usuaris %}
+        <tr>
+            <td>{{usuari.id}}</td>
+            <td>{{usuari.login}}</td>
+            <td>{{usuari.password}}</td>
+            <td>{{usuari.email}}</td>
+            <td>{{usuari.rol}}</td>
+            <td><a href ="{{ path('editar_usuari', {'id': usuari.id}) }}"> <img class="lapiz" src="{{ absolute_url(asset('img/lapiz.png')) }}" /></a></td>
+            <td><a href ="{{ path('eliminar_usuari', {'id': usuari.id}) }}"> <img class="lapiz" src="{{ absolute_url(asset('img/basura.png')) }}" /></a></td>
+        </tr>
+        {% endfor %}    
+    </body>
+  </table>
+  <a href ="{{ path('nou_usuari') }}">Usuari nou</a>
+    <br>
+    <br>
+    <br>    
+{% endblock %}

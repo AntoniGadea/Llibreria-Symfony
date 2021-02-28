@@ -30,6 +30,7 @@ class LlibreController extends AbstractController{
      */
 
     public function llibre_nou(Request $request){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Accés restringit a administradors');
         $llibre = new Llibre();
         $formulari = $this->createForm(LlibreType::class, $llibre);
             $formulari->handleRequest($request);
@@ -48,6 +49,7 @@ class LlibreController extends AbstractController{
      */
      
     public function editar_llibre(Request $request, $isbn){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Accés restringit a administradors');
         $repositori = $this->getDoctrine()->getRepository(Llibre::class);
         $llibre = $repositori->find($isbn);
         

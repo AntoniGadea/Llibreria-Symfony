@@ -26,3 +26,13 @@ h1, h2, h3 {
 .mayu{
     text-transform: uppercase;
 }
+
+table, th, td{
+    border: solid black 2px;
+    background-color: white;
+}
+
+td{
+    padding: 10px;
+}
+

@@ -15,7 +15,17 @@
     </head>
     <body>
         <a href ="{{ path('inici')}}">Inici</a><span> - </span>
-        <a href ="{{ path('llibre_nou')}}">Llibre nou</a>
+        <a href ="{{ path('llibre_nou')}}">Llibre nou</a><span> - </span>
+        
+        {% if is_granted('ROLE_USER') %}
+        <span>Benvingut/da usuari!</span>
+        <a href ="{{ path('logout') }}">Tancar sessió</a>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+        <a href ="{{ path('usuari')}}">Gestió d'usuaris</a><span> - </span>
+        <span>Benvingut/da admin!</span>
+        <a href ="{{ path('logout') }}">Tancar sessió</a>
+        {% endif %}
         <div class="container p-5">
         {% block body %}
         
